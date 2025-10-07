@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 07, 2025 at 12:14 PM
+-- Generation Time: Oct 07, 2025 at 12:24 PM
 -- Server version: 8.4.6
 -- PHP Version: 8.4.12
 
@@ -20,6 +20,43 @@ SET time_zone = "+00:00";
 --
 -- Database: `orbibase`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Resources`
+--
+
+CREATE TABLE `Resources` (
+  `id` int NOT NULL,
+  `oxygene` tinyint UNSIGNED DEFAULT NULL,
+  `nourriture` tinyint UNSIGNED DEFAULT NULL,
+  `eau` tinyint UNSIGNED DEFAULT NULL,
+  `energie` tinyint UNSIGNED DEFAULT NULL,
+  `date_heure` datetime DEFAULT CURRENT_TIMESTAMP
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Secteur`
+--
+
+CREATE TABLE `Secteur` (
+  `id` int NOT NULL,
+  `nom` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Specialite`
+--
+
+CREATE TABLE `Specialite` (
+  `id` int NOT NULL,
+  `nom` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -43,6 +80,24 @@ CREATE TABLE `User` (
 --
 
 --
+-- Indexes for table `Resources`
+--
+ALTER TABLE `Resources`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Secteur`
+--
+ALTER TABLE `Secteur`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Specialite`
+--
+ALTER TABLE `Specialite`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `User`
 --
 ALTER TABLE `User`
@@ -54,6 +109,24 @@ ALTER TABLE `User`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Resources`
+--
+ALTER TABLE `Resources`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Secteur`
+--
+ALTER TABLE `Secteur`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Specialite`
+--
+ALTER TABLE `Specialite`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `User`
