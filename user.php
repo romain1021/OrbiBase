@@ -1,8 +1,8 @@
 <?php
 
-function createAccount(PDO $conn) {
+function addUser($identifiant, $password, $nom = '', $prenom = '', $idSpecialite = null, $idSecteur = null, $statut = 'Actif') {
     $identifiant = $_POST['identifiant'] ?? null;
-    $password = $_POST['mdp'] ?? null; // mot de passe en clair côté requête
+    $password = $_POST['mdp'] ?? null; 
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
     $idSpecialite = isset($_POST['idSpecialite']) && $_POST['idSpecialite'] !== '' ? (int) $_POST['idSpecialite'] : null;
