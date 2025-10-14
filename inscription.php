@@ -1,16 +1,18 @@
 <?php
-    $dsn = 'mysql:host=127.0.0.1;dbname=orbibase;charset=utf8mb4';
-    $dbUser = 'root';
-    $dbPass = '';
-    $conn = new PDO($dsn, $dbUser, $dbPass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
+require_once(__DIR__ . '/user.php');
 
-
-
+$specialites = [];
+$secteurs = [];
+try {
+    $pdo = getLocalPDO();
+    $specialites = $pdo->query('SELECT id, nom FROM Specialite ORDER BY nom')->fetchAll();
+    $secteurs = $pdo->query('SELECT id, nom FROM Secteur ORDER BY nom')->fetchAll();
+} catch (Exception $e) {
+    // Si la connexion ou les tables n'existent pas, on laisse les listes vides
+    $specialites = [];
+    $secteurs = [];
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -69,23 +71,35 @@
 </html>
 
 <?php
-require_once("user.php");
-
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $newUserId = addUser(
-            $_POST['identifiant'] ?? null,
-            $_POST['mdp'] ?? null,
-            $_POST['nom'] ?? '',
-            $_POST['prenom'] ?? '',
-            isset($_POST['idSpecialite']) && $_POST['idSpecialite'] !== '' ? (int) $_POST['idSpecialite'] : null,
-            isset($_POST['idSecteur']) && $_POST['idSecteur'] !== '' ? (int) $_POST['idSecteur'] : null,
-            $_POST['statut'] ?? 'Actif'
-        );
-        echo "<p style='color:green;'>Compte créé avec succès. ID utilisateur : $newUserId</p>";
-    } catch (Exception $e) {
-        echo "<p style='color:red;'>Erreur lors de la création du compte : " . htmlspecialchars($e->getMessage()) . "</p>";
+    if (isset($_POST['test_password'])) {
+        $pw = $_POST['mdp'] ?? '';
+        $errors = [];
+        if (strlen($pw) < 12) $errors[] = 'Moins de 12 caractères.';
+        if (!preg_match('/[A-Z]/', $pw)) $errors[] = 'Pas de majuscule.';
+        if (!preg_match('/[a-z]/', $pw)) $errors[] = 'Pas de minuscule.';
+        if (!preg_match('/\d/', $pw)) $errors[] = 'Pas de chiffre.';
+        if (!preg_match('/[^a-zA-Z\d]/', $pw)) $errors[] = 'Pas de caractère spécial.';
+
+        if (empty($errors)) {
+            echo '<p style="color:green;">Mot de passe OK.</p>';
+        } else {
+            echo '<p style="color:red;">' . implode(' ', $errors) . '</p>';
+        }
+    } else {
+        try {
+            $newUserId = addUser(
+                $_POST['identifiant'] ?? null,
+                $_POST['mdp'] ?? null,
+                $_POST['nom'] ?? '',
+                $_POST['prenom'] ?? '',
+                isset($_POST['idSpecialite']) && $_POST['idSpecialite'] !== '' ? (int) $_POST['idSpecialite'] : null,
+                isset($_POST['idSecteur']) && $_POST['idSecteur'] !== '' ? (int) $_POST['idSecteur'] : null,
+                $_POST['statut'] ?? 'Actif'
+            );
+            echo "<p style='color:green;'>Compte créé avec succès. ID utilisateur : " . htmlspecialchars($newUserId) . "</p>";
+        } catch (Exception $e) {
+            echo "<p style='color:red;'>Erreur lors de la création du compte : " . htmlspecialchars($e->getMessage()) . "</p>";
+        }
     }
 }

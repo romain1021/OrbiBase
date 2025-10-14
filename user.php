@@ -1,22 +1,32 @@
 <?php
 
-function addUser($identifiant, $password, $nom = '', $prenom = '', $idSpecialite = null, $idSecteur = null, $statut = 'Actif') {
-    $identifiant = $_POST['identifiant'] ?? null;
-    $password = $_POST['mdp'] ?? null; 
-    $nom = $_POST['nom'] ?? '';
-    $prenom = $_POST['prenom'] ?? '';
-    $idSpecialite = isset($_POST['idSpecialite']) && $_POST['idSpecialite'] !== '' ? (int) $_POST['idSpecialite'] : null;
-    $idSecteur = isset($_POST['idSecteur']) && $_POST['idSecteur'] !== '' ? (int) $_POST['idSecteur'] : null;
-    $statut = $_POST['statut'] ?? 'Actif';
 
-    if (!$identifiant || !$password) {
-        throw new InvalidArgumentException('Les champs identifiant et mdp sont requis.');
-    }
+function getLocalPDO(): PDO
+{
+    $dsn = 'mysql:host=127.0.0.1;dbname=orbibase;charset=utf8mb4';
+    $dbUser = 'root';
+    $dbPass = '';
+    return new PDO($dsn, $dbUser, $dbPass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+}
+
+function addUser($identifiant = null, $password = null, $nom = '', $prenom = '', $idSpecialite = null, $idSecteur = null, $statut = 'Actif') {
+    $identifiant = $identifiant ?? ($_POST['identifiant'] ?? null);
+    $password = $password ?? ($_POST['mdp'] ?? null);
+    $nom = $nom ?: ($_POST['nom'] ?? '');
+    $prenom = $prenom ?: ($_POST['prenom'] ?? '');
+    $idSpecialite = $idSpecialite ?? (isset($_POST['idSpecialite']) && $_POST['idSpecialite'] !== '' ? (int) $_POST['idSpecialite'] : null);
+    $idSecteur = $idSecteur ?? (isset($_POST['idSecteur']) && $_POST['idSecteur'] !== '' ? (int) $_POST['idSecteur'] : null);
+    $statut = $statut ?: ($_POST['statut'] ?? 'Actif');
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO `User` (identifiant, mdp, nom, prenom, idSpecialite, idSecteur, statut)\n            VALUES (:identifiant, :mdp, :nom, :prenom, :idSpecialite, :idSecteur, :statut)";
-    $stmt = $conn->prepare($sql);
+
+    $pdo = getLocalPDO();
+    $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':identifiant', $identifiant);
     $stmt->bindParam(':mdp', $hashedPassword);
     $stmt->bindParam(':nom', $nom);
@@ -35,14 +45,21 @@ function addUser($identifiant, $password, $nom = '', $prenom = '', $idSpecialite
 
     $stmt->execute();
 
-    return $conn->lastInsertId();
+    return $pdo->lastInsertId();
 }
 
-function checkUserCredentials(PDO $conn) {
-    $identifiant = $_POST['identifiant'] ?? null;
-    $password = $_POST['mdp'] ?? null; // mot de passe en clair fourni par l'utilisateur
+function checkUserCredentials($identifiant = null, $password = null) {
+    $identifiant = $identifiant ?? ($_POST['identifiant'] ?? null);
+    $password = $password ?? ($_POST['mdp'] ?? null);
+
+    if (!$identifiant || !$password) {
+        echo "<p style='color:red;'>Identifiant et mot de passe requis.</p>";
+        return false;
+    }
+
     $sql = "SELECT id, mdp FROM `User` WHERE identifiant = :identifiant LIMIT 1";
-    $stmt = $conn->prepare($sql);
+    $pdo = getLocalPDO();
+    $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':identifiant', $identifiant);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
