@@ -64,6 +64,37 @@ function checkUserCredentials($identifiant = null, $password = null) {
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    /**
+     * Retourne un tableau associatif des secteurs avec les utilisateurs affectés à chaque secteur.
+     * Format : [ 'SecteurNom' => [ user1, user2, ... ], ... ]
+     */
+    function getListeUserByAffectation() {
+        $pdo = getLocalPDO();
+        $sql = "SELECT s.id AS secteur_id, s.nom AS secteur_nom, u.id AS user_id, u.identifiant, u.nom, u.prenom, u.statut
+                FROM Secteur s
+                LEFT JOIN User u ON u.idSecteur = s.id
+                ORDER BY s.nom, u.nom, u.prenom";
+        $stmt = $pdo->query($sql);
+        $result = $stmt->fetchAll();
+
+        $liste = [];
+        foreach ($result as $row) {
+            $secteurNom = $row['secteur_nom'];
+            if (!isset($liste[$secteurNom])) {
+                $liste[$secteurNom] = [];
+            }
+            if ($row['user_id'] !== null) {
+                $liste[$secteurNom][] = [
+                    'id' => $row['user_id'],
+                    'identifiant' => $row['identifiant'],
+                    'nom' => $row['nom'],
+                    'prenom' => $row['prenom'],
+                    'statut' => $row['statut']
+                ];
+            }
+        }
+        return $liste;
+    }
     if ($user && password_verify($password, $user['mdp'])) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
@@ -80,4 +111,5 @@ function checkUserCredentials($identifiant = null, $password = null) {
         }
         return false;
     }
+
 }
