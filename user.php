@@ -63,11 +63,23 @@ function checkUserCredentials($identifiant = null, $password = null) {
     $stmt->bindParam(':identifiant', $identifiant);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user && password_verify($password, $user['mdp'])) {
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['identifiant'] = $identifiant;
+        header("Location: ../view/home.php");
+        if (function_exists('logDeviceData')) {
+            logDeviceData("User $identifiant logged in successfully.");
+        }
+        exit();
+    } else {
+        echo "<p style='color:red;'>Nom d'utilisateur ou mot de passe incorrect.</p>";
+        if (function_exists('logDeviceData')) {
+            logDeviceData("Failed login attempt for user $identifiant.");
+        }
+        return false;
+    }
 
-    /**
-     * Retourne un tableau associatif des secteurs avec les utilisateurs affectés à chaque secteur.
-     * Format : [ 'SecteurNom' => [ user1, user2, ... ], ... ]
-     */
     function getListeUserByAffectation() {
         $pdo = getLocalPDO();
         $sql = "SELECT s.id AS secteur_id, s.nom AS secteur_nom, u.id AS user_id, u.identifiant, u.nom, u.prenom, u.statut
@@ -95,21 +107,4 @@ function checkUserCredentials($identifiant = null, $password = null) {
         }
         return $liste;
     }
-    if ($user && password_verify($password, $user['mdp'])) {
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['identifiant'] = $identifiant;
-        header("Location: ../view/home.php");
-        if (function_exists('logDeviceData')) {
-            logDeviceData("User $identifiant logged in successfully.");
-        }
-        exit();
-    } else {
-        echo "<p style='color:red;'>Nom d'utilisateur ou mot de passe incorrect.</p>";
-        if (function_exists('logDeviceData')) {
-            logDeviceData("Failed login attempt for user $identifiant.");
-        }
-        return false;
-    }
-
 }
