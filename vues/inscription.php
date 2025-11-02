@@ -1,5 +1,4 @@
 <?php
-require_once(__DIR__ . '/user.php');
 
 $specialites = [];
 $secteurs = [];
@@ -64,7 +63,7 @@ try {
 
         <br />
         <input type="submit" value="S'inscrire" />
-        <button type="button" onclick="location.href='connexion.php'">Retour à la connexion</button>
+        <button type="button" onclick="location.href='index.php?page=connexion'">Retour à la connexion</button>
         <button type="submit" name="test_password" value="1" style="background-color: #3498db; margin-left: 10px;">Tester PasswordQuality</button>
     </form>
 </body>
