@@ -67,10 +67,7 @@ function checkUserCredentials($identifiant = null, $password = null) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['identifiant'] = $identifiant;
-        header("Location: ../view/home.php");
-        if (function_exists('logDeviceData')) {
-            logDeviceData("User $identifiant logged in successfully.");
-        }
+        header("Location: index.php?page=home");
         exit();
     } else {
         echo "<p style='color:red;'>Nom d'utilisateur ou mot de passe incorrect.</p>";
