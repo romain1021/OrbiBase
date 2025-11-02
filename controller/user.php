@@ -76,32 +76,41 @@ function checkUserCredentials($identifiant = null, $password = null) {
         }
         return false;
     }
+}
 
-    function getListeUserByAffectation() {
-        $pdo = getLocalPDO();
-        $sql = "SELECT s.id AS secteur_id, s.nom AS secteur_nom, u.id AS user_id, u.identifiant, u.nom, u.prenom, u.statut
-                FROM Secteur s
-                LEFT JOIN User u ON u.idSecteur = s.id
-                ORDER BY s.nom, u.nom, u.prenom";
-        $stmt = $pdo->query($sql);
-        $result = $stmt->fetchAll();
+function getListeUserByAffectation() {
+    $pdo = getLocalPDO();
+    $sql = "SELECT s.id AS secteur_id, s.nom AS secteur_nom, u.id AS user_id, u.identifiant, u.nom, u.prenom, u.statut
+            FROM Secteur s
+            LEFT JOIN User u ON u.idSecteur = s.id
+            ORDER BY s.nom, u.nom, u.prenom";
+    $stmt = $pdo->query($sql);
+    $result = $stmt->fetchAll();
 
-        $liste = [];
-        foreach ($result as $row) {
-            $secteurNom = $row['secteur_nom'];
-            if (!isset($liste[$secteurNom])) {
-                $liste[$secteurNom] = [];
-            }
-            if ($row['user_id'] !== null) {
-                $liste[$secteurNom][] = [
-                    'id' => $row['user_id'],
-                    'identifiant' => $row['identifiant'],
-                    'nom' => $row['nom'],
-                    'prenom' => $row['prenom'],
-                    'statut' => $row['statut']
-                ];
-            }
+    $liste = [];
+    foreach ($result as $row) {
+        $secteurNom = $row['secteur_nom'];
+        if (!isset($liste[$secteurNom])) {
+            $liste[$secteurNom] = [];
         }
-        return $liste;
+        if ($row['user_id'] !== null) {
+            $liste[$secteurNom][] = [
+                'id' => $row['user_id'],
+                'identifiant' => $row['identifiant'],
+                'nom' => $row['nom'],
+                'prenom' => $row['prenom'],
+                'statut' => $row['statut']
+            ];
+        }
     }
+    return $liste;
+}
+
+function getUserById($userId) {
+    $pdo = getLocalPDO();
+    $sql = "SELECT id, identifiant, nom, prenom, idSpecialite, idSecteur, statut FROM `User` WHERE id = :id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

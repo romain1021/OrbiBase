@@ -7,6 +7,7 @@ session_start();
 
 if(isset($_GET['page'])){
     //require_once('vues/cookies.php');
+    require_once('vues/resourcescritique.php');
 
     if ($_GET['page']=="home"){
         require_once('vues/home.php');
@@ -22,6 +23,9 @@ if(isset($_GET['page'])){
 
     elseif ($_GET['page']=="resources"){
         require_once('vues/resources.php');
+    }
+    elseif ($_GET['page']=="displayUser"){
+        require_once('vues/displayUser.php');
     }
 
 
