@@ -3,7 +3,7 @@ require_once('controller/user.php');
 require_once('controller/resourcesController.php');
 
 session_start();
-
+require_once('vues/header.php');
 
 if(isset($_GET['page'])){
     //require_once('vues/cookies.php');

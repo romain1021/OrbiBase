@@ -23,7 +23,7 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $sql = "INSERT INTO `User` (identifiant, mdp, nom, prenom, idSpecialite, idSecteur, statut)\n            VALUES (:identifiant, :mdp, :nom, :prenom, :idSpecialite, :idSecteur, :statut)";
+    $sql = "INSERT INTO `User` (identifiant, mdp, nom, prenom, idSpecialite, idSecteur, statut)\n VALUES (:identifiant, :mdp, :nom, :prenom, :idSpecialite, :idSecteur, :statut)";
 
     $pdo = getLocalPDO();
     $stmt = $pdo->prepare($sql);
@@ -64,7 +64,6 @@ function checkUserCredentials($identifiant = null, $password = null) {
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user && password_verify($password, $user['mdp'])) {
-        session_start();
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['identifiant'] = $identifiant;
         header("Location: index.php?page=home");

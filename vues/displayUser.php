@@ -34,7 +34,5 @@ if (!$user) {
     <li><strong>Spécialité (id) :</strong> <?php echo htmlspecialchars($user['idSpecialite'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></li>
     <li><strong>Secteur (id) :</strong> <?php echo htmlspecialchars($user['idSecteur'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></li>
 </ul>
-
-<p><a href="index.php?page=home">Retour à l'accueil</a></p>
 </body>
 </html>
