@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 07, 2025 at 12:24 PM
+-- Generation Time: Nov 13, 2025 at 10:56 AM
 -- Server version: 8.4.6
 -- PHP Version: 8.4.12
 
@@ -24,6 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Notification`
+--
+
+CREATE TABLE `Notification` (
+  `id` int NOT NULL,
+  `idUser` int NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `dateTime` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Notification`
+--
+
+INSERT INTO `Notification` (`id`, `idUser`, `message`, `dateTime`) VALUES
+(1, 1, 'COUCOU', '2025-11-06 14:30:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Resources`
 --
 
@@ -36,6 +56,22 @@ CREATE TABLE `Resources` (
   `date_heure` datetime DEFAULT CURRENT_TIMESTAMP
 ) ;
 
+--
+-- Dumping data for table `Resources`
+--
+
+INSERT INTO `Resources` (`id`, `oxygene`, `nourriture`, `eau`, `energie`, `date_heure`) VALUES
+(1, 85, 67, 74, 92, '2025-10-23 10:15:00'),
+(2, 78, 52, 68, 87, '2025-10-24 11:20:00'),
+(3, 65, 70, 59, 81, '2025-10-25 09:45:00'),
+(4, 72, 60, 63, 79, '2025-10-26 13:30:00'),
+(5, 69, 58, 61, 75, '2025-10-27 08:10:00'),
+(6, 58, 54, 57, 70, '2025-10-28 14:50:00'),
+(7, 55, 48, 53, 65, '2025-10-29 10:05:00'),
+(8, 49, 44, 48, 60, '2025-10-30 15:15:00'),
+(9, 43, 38, 41, 55, '2025-10-31 11:25:00'),
+(10, 39, 35, 37, 50, '2025-11-01 09:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +83,17 @@ CREATE TABLE `Secteur` (
   `nom` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `Secteur`
+--
+
+INSERT INTO `Secteur` (`id`, `nom`) VALUES
+(1, 'Recherche'),
+(2, 'Agriculture'),
+(3, 'Maintenance'),
+(4, 'Médecine'),
+(5, 'Commandement');
+
 -- --------------------------------------------------------
 
 --
@@ -57,6 +104,17 @@ CREATE TABLE `Specialite` (
   `id` int NOT NULL,
   `nom` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Specialite`
+--
+
+INSERT INTO `Specialite` (`id`, `nom`) VALUES
+(1, 'Médecine générale'),
+(2, 'Informatique médicale'),
+(3, 'Infirmier'),
+(4, 'Pharmacien'),
+(5, 'Technicien de laboratoire');
 
 -- --------------------------------------------------------
 
@@ -76,8 +134,24 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`id`, `identifiant`, `mdp`, `nom`, `prenom`, `idSpecialite`, `idSecteur`, `statut`) VALUES
+(1, 'Romain', '$2y$12$waUDJ0Kd2eD.TPfVuR5TzOTIccQYf6.2LI54Oeud2ASSvYuv/KRfu', 'Lombard', 'Romain', NULL, NULL, 'Actif'),
+(2, 'roro', '$2y$12$YAodCyz9lydFjsMxsTKlg.rMPtSpRvHJS6.dD8srCaUfaVD.hh0vW', 'Lombard', 'Romain', NULL, NULL, 'Actif'),
+(6, 'jdupont', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif'),
+(28, 'iefhzifgefpiez', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `Notification`
+--
+ALTER TABLE `Notification`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `Resources`
@@ -111,6 +185,12 @@ ALTER TABLE `User`
 --
 
 --
+-- AUTO_INCREMENT for table `Notification`
+--
+ALTER TABLE `Notification`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `Resources`
 --
 ALTER TABLE `Resources`
@@ -120,19 +200,19 @@ ALTER TABLE `Resources`
 -- AUTO_INCREMENT for table `Secteur`
 --
 ALTER TABLE `Secteur`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Specialite`
 --
 ALTER TABLE `Specialite`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
