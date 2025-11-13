@@ -5,37 +5,38 @@ require_once('controller/resourcesController.php');
 session_start();
 require_once('vues/header.php');
 
-if(isset($_GET['page'])){
+$page = $_GET['page'] ?? null;
+
+if ($page) {
     //require_once('vues/cookies.php');
     require_once('vues/resourcescritique.php');
 
-    if ($_GET['page']=="home"){
-        require_once('vues/home.php');
+    switch ($page) {
+        case 'home':
+            require_once('vues/home.php');
+            break;
+        case 'connexion':
+            require_once('vues/connexion.php');
+            break;
+        case 'inscription':
+            require_once('vues/inscription.php');
+            break;
+        case 'resources':
+            require_once('vues/resources.php');
+            break;
+        case 'displayUser':
+            require_once('vues/displayUser.php');
+            break;
+        default:
+            header('Location: index.php?page=connexion');
+            exit;
     }
 
-    elseif ($_GET['page']=="connexion"){
-        require_once('vues/connexion.php');
+} else {
+    if (!empty($_SESSION['user_id'])) {
+        header('Location: index.php?page=home');
+    } else {
+        header('Location: index.php?page=connexion');
     }
-
-    elseif ($_GET['page']=="inscription"){
-        require_once('vues/inscription.php');
-    }
-
-    elseif ($_GET['page']=="resources"){
-        require_once('vues/resources.php');
-    }
-    elseif ($_GET['page']=="displayUser"){
-        require_once('vues/displayUser.php');
-    }
-
-
-
-
-
+    exit;
 }
-
-
-else{
-        header("Location: index.php?page=connexion");
-    }
-
