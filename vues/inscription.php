@@ -13,7 +13,7 @@ try {
 }
 ?>
 
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <label for="identifiant">Identifiant :</label>
         <input type="text" name="identifiant" id="identifiant" required />
 
@@ -52,6 +52,9 @@ try {
             <option value="Malade">Malade</option>
             <option value="Danger">Danger</option>
         </select>
+
+        <label for="photo">Photo de profil (jpg/png/gif) :</label>
+        <input type="file" name="photo" id="photo" accept="image/*" />
 
         <br />
         <input type="submit" value="S'inscrire" />

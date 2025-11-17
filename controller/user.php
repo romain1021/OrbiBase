@@ -21,6 +21,10 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
     $idSecteur = $idSecteur ?? (isset($_POST['idSecteur']) && $_POST['idSecteur'] !== '' ? (int) $_POST['idSecteur'] : null);
     $statut = $statut ?: ($_POST['statut'] ?? 'Actif');
 
+    if (!$identifiant || !$password) {
+        throw new Exception('Identifiant et mot de passe requis.');
+    }
+
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO `User` (identifiant, mdp, nom, prenom, idSpecialite, idSecteur, statut)\n VALUES (:identifiant, :mdp, :nom, :prenom, :idSpecialite, :idSecteur, :statut)";
@@ -45,7 +49,39 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
 
     $stmt->execute();
 
-    return $pdo->lastInsertId();
+    $newId = $pdo->lastInsertId();
+
+    // Handle uploaded photo if present in $_FILES['photo']
+    if (!empty($_FILES['photo']['tmp_name'])) {
+        try {
+            $uploaded = $_FILES['photo'];
+            if ($uploaded['error'] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($uploaded['name'], PATHINFO_EXTENSION);
+                $allowed = ['jpg','jpeg','png','gif'];
+                if (!in_array(strtolower($ext), $allowed)) {
+                    // ignore invalid extensions
+                } else {
+                    $targetDir = __DIR__ . '/../photo';
+                    if (!is_dir($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                    }
+                    $filename = 'user_' . $newId . '_' . time() . '.' . $ext;
+                    $targetPath = $targetDir . '/' . $filename;
+                    if (move_uploaded_file($uploaded['tmp_name'], $targetPath)) {
+                        $relative = 'photo/' . $filename;
+                        $update = $pdo->prepare('UPDATE `User` SET lienPDP = :lien WHERE id = :id');
+                        $update->bindParam(':lien', $relative);
+                        $update->bindParam(':id', $newId, PDO::PARAM_INT);
+                        $update->execute();
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            // silently ignore upload problem for now
+        }
+    }
+
+    return $newId;
 }
 
 function checkUserCredentials($identifiant = null, $password = null) {
@@ -107,9 +143,44 @@ function getListeUserByAffectation() {
 
 function getUserById($userId) {
     $pdo = getLocalPDO();
-    $sql = "SELECT id, identifiant, nom, prenom, idSpecialite, idSecteur, statut FROM `User` WHERE id = :id LIMIT 1";
+    $sql = "SELECT u.id, u.identifiant, u.nom, u.prenom, u.idSpecialite, u.idSecteur, u.statut, u.lienPDP,
+                   s.nom AS specialite, se.nom AS secteur
+            FROM `User` u
+            LEFT JOIN Specialite s ON u.idSpecialite = s.id
+            LEFT JOIN Secteur se ON u.idSecteur = se.id
+            WHERE u.id = :id LIMIT 1";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function updateUserPassword($userId, $newPassword) {
+    if (!$newPassword) return false;
+    $pdo = getLocalPDO();
+    $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+    $stmt = $pdo->prepare('UPDATE `User` SET mdp = :mdp WHERE id = :id');
+    $stmt->bindParam(':mdp', $hash);
+    $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
+function updateUserPhoto($userId, $uploadedFile) {
+    if (empty($uploadedFile['tmp_name']) || $uploadedFile['error'] !== UPLOAD_ERR_OK) return false;
+    $ext = pathinfo($uploadedFile['name'], PATHINFO_EXTENSION);
+    $allowed = ['jpg','jpeg','png','gif'];
+    if (!in_array(strtolower($ext), $allowed)) return false;
+    $targetDir = __DIR__ . '/../photo';
+    if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
+    $filename = 'user_' . $userId . '_' . time() . '.' . $ext;
+    $targetPath = $targetDir . '/' . $filename;
+    if (move_uploaded_file($uploadedFile['tmp_name'], $targetPath)) {
+        $relative = 'photo/' . $filename;
+        $pdo = getLocalPDO();
+        $stmt = $pdo->prepare('UPDATE `User` SET lienPDP = :lien WHERE id = :id');
+        $stmt->bindParam(':lien', $relative);
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+    return false;
 }

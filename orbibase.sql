@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 13, 2025 at 10:56 AM
+-- Generation Time: Nov 17, 2025 at 09:21 AM
 -- Server version: 8.4.6
 -- PHP Version: 8.4.12
 
@@ -130,18 +130,19 @@ CREATE TABLE `User` (
   `prenom` varchar(100) NOT NULL,
   `idSpecialite` int DEFAULT NULL,
   `idSecteur` int DEFAULT NULL,
-  `statut` enum('Actif','Repos','Malade','Danger') DEFAULT 'Actif'
+  `statut` enum('Actif','Repos','Malade','Danger') DEFAULT 'Actif',
+  `lienPDP` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `User`
 --
 
-INSERT INTO `User` (`id`, `identifiant`, `mdp`, `nom`, `prenom`, `idSpecialite`, `idSecteur`, `statut`) VALUES
-(1, 'Romain', '$2y$12$waUDJ0Kd2eD.TPfVuR5TzOTIccQYf6.2LI54Oeud2ASSvYuv/KRfu', 'Lombard', 'Romain', NULL, NULL, 'Actif'),
-(2, 'roro', '$2y$12$YAodCyz9lydFjsMxsTKlg.rMPtSpRvHJS6.dD8srCaUfaVD.hh0vW', 'Lombard', 'Romain', NULL, NULL, 'Actif'),
-(6, 'jdupont', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif'),
-(28, 'iefhzifgefpiez', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif');
+INSERT INTO `User` (`id`, `identifiant`, `mdp`, `nom`, `prenom`, `idSpecialite`, `idSecteur`, `statut`, `lienPDP`) VALUES
+(1, 'Romain', '$2y$12$waUDJ0Kd2eD.TPfVuR5TzOTIccQYf6.2LI54Oeud2ASSvYuv/KRfu', 'Lombard', 'Romain', NULL, NULL, 'Actif', NULL),
+(2, 'roro', '$2y$12$YAodCyz9lydFjsMxsTKlg.rMPtSpRvHJS6.dD8srCaUfaVD.hh0vW', 'Lombard', 'Romain', NULL, NULL, 'Actif', NULL),
+(6, 'jdupont', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif', NULL),
+(28, 'iefhzifgefpiez', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif', NULL);
 
 --
 -- Indexes for dumped tables
