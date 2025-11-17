@@ -7,7 +7,6 @@ try {
     $specialites = $pdo->query('SELECT id, nom FROM Specialite ORDER BY nom')->fetchAll();
     $secteurs = $pdo->query('SELECT id, nom FROM Secteur ORDER BY nom')->fetchAll();
 } catch (Exception $e) {
-    // Si la connexion ou les tables n'existent pas, on laisse les listes vides
     $specialites = [];
     $secteurs = [];
 }

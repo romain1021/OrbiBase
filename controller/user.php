@@ -51,7 +51,6 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
 
     $newId = $pdo->lastInsertId();
 
-    // Handle uploaded photo if present in $_FILES['photo']
     if (!empty($_FILES['photo']['tmp_name'])) {
         try {
             $uploaded = $_FILES['photo'];
@@ -59,7 +58,6 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
                 $ext = pathinfo($uploaded['name'], PATHINFO_EXTENSION);
                 $allowed = ['jpg','jpeg','png','gif'];
                 if (!in_array(strtolower($ext), $allowed)) {
-                    // ignore invalid extensions
                 } else {
                     $targetDir = __DIR__ . '/../photo';
                     if (!is_dir($targetDir)) {
@@ -77,7 +75,6 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
                 }
             }
         } catch (Exception $e) {
-            // silently ignore upload problem for now
         }
     }
 
