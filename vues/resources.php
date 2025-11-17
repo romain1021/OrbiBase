@@ -1,15 +1,7 @@
 <?php
 $latestResources = getLatestResources();
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-	<meta charset="utf-8">
-	<title>Ressources</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+
 	<h1>Ressources actuelles</h1>
 	<?php if ($latestResources): ?>
 		<div class="resources">
@@ -24,5 +16,4 @@ $latestResources = getLatestResources();
 	<?php else: ?>
         <p>Aucune ressource enregistrée pour le moment.</p>
 	<?php endif; ?>
-</body>
-</html>
+

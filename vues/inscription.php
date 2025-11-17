@@ -12,15 +12,7 @@ try {
     $secteurs = [];
 }
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+
     <form action="" method="post">
         <label for="identifiant">Identifiant :</label>
         <input type="text" name="identifiant" id="identifiant" required />
@@ -66,8 +58,7 @@ try {
         <button type="button" onclick="location.href='index.php?page=connexion'">Retour à la connexion</button>
         <button type="submit" name="test_password" value="1" style="background-color: #3498db; margin-left: 10px;">Tester PasswordQuality</button>
     </form>
-</body>
-</html>
+
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

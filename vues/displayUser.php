@@ -3,14 +3,7 @@ require_once('controller/user.php');
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Affichage utilisateur</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
+
 <?php
 if ($id === null || $id === false) {
     echo '<p style="color:red;">Identifiant utilisateur manquant ou invalide.</p>';
