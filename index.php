@@ -14,6 +14,7 @@ if ($page) {
     switch ($page) {
         case 'home':
             require_once('vues/home.php');
+            require_once('vues/vueUtilisateur.php');
             break;
         case 'connexion':
             require_once('vues/connexion.php');
