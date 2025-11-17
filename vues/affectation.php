@@ -1,6 +1,5 @@
 <?php
-// $pdo = new PDO("mysql:host=localhost;dbname=orbibase", "root", ""); 
-$pdo = new PDO("mysql:host=localhost;dbname=test","root",""); 
+$pdo = new PDO("mysql:host=localhost;dbname=orbibase", "root", "");  
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 
 $filtre = $_GET['filtre'] ?? '';
