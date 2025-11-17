@@ -32,7 +32,6 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
 <form method="GET" action="affectation.php">
     <label for="filtre">Rechercher par secteur: </label>
     <select name="filtre" id="filtre">
-        <option value="">-- Tous --</option>
         <option value="1" <?= $filtre === '1' ? 'selected' : '' ?>>Recherche</option>
         <option value="2" <?= $filtre === '2' ? 'selected' : '' ?>>Agriculture</option>
         <option value="3"<?= $filtre === '3'? 'selected' : '' ?>>Maintenance</option>
