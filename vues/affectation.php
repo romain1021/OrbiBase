@@ -20,8 +20,8 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
     <style>
         body { font-family: Arial; margin: 20px; }
         table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th, td { border: 1px solid#ccc; padding: 8px; text-align: left; }
+        th { background-color:#f2f2f2; }
         select, button { padding: 5px; margin-top: 10px; }
     </style>
 </head>
