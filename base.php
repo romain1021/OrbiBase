@@ -4,7 +4,7 @@ class Base {
 
     public function __construct() {
         try {
-            $this->db = new PDO("mysql:host=localhost;dbname=test", "root", "");
+            $this->db = new PDO("mysql:host=localhost;dbname=orbibase", "root", "");
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Erreur de connexion : " . $e->getMessage());
