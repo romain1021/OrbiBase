@@ -26,10 +26,13 @@ if ($page) {
             require_once('vues/resources.php');
             break;
         case 'displayUser':
-            require_once('vues/displayUser.php');
+            require_once('vues/vueUtilisateur.php');
             break;
         case 'affectation':
             require_once('vues/affectation.php');
+            break;
+        case 'userInfos':
+            require_once('vues/vueUtilisateur.php');
             break;
         default:
             header('Location: index.php?page=connexion');

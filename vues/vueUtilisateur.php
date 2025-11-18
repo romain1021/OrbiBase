@@ -1,13 +1,19 @@
 <?php
 require_once('controller/user.php');
-session_start();
-$userID = $_SESSION['user_id'] ?? null;
-if ($userID === null) {
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$viewerId = $_SESSION['user_id'] ?? null;
+
+$profileId = isset($_GET['id']) && $_GET['id'] !== '' ? (int) $_GET['id'] : $viewerId;
+
+if ($profileId === null) {
     header('Location: index.php?page=connexion');
     exit;
 }
 
-$user = getUserById($userID);
+$user = getUserById($profileId);
 if (!$user) {
     echo "<p style='color:red;'>Utilisateur non trouvé.</p>";
     exit;
@@ -29,39 +35,11 @@ if (!$user) {
 <p><strong>Statut :</strong> <?php echo htmlspecialchars($user['statut']); ?></p>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['change_password'])) {
-        $newPass = $_POST['new_password'] ?? '';
-        if (strlen($newPass) >= 6) {
-            if (updateUserPassword($userID, $newPass)) {
-                echo '<p style="color:green;">Mot de passe mis à jour.</p>';
-            } else {
-                echo '<p style="color:red;">Erreur mise à jour mot de passe.</p>';
-            }
-        } else {
-            echo '<p style="color:red;">Le mot de passe doit contenir au moins 6 caractères.</p>';
-        }
-    }
-    if (isset($_FILES['new_photo'])) {
-        if (updateUserPhoto($userID, $_FILES['new_photo'])) {
-            echo '<p style="color:green;">Photo mise à jour.</p>';
-            $user = getUserById($userID);
-        } else {
-            echo '<p style="color:red;">Erreur lors de l\'upload de la photo.</p>';
-        }
-    }
+// Si l'utilisateur visualisé est le même que la session, afficher la vue de modification dessous
+if ($viewerId !== null && $viewerId === $profileId) {
+    // inclut le formulaire et le traitement (fichier séparé)
+    include __DIR__ . '/modif.php';
 }
+
 ?>
 
-<h3>Modifier mon profil</h3>
-<form method="post">
-    <label for="new_password">Nouveau mot de passe :</label>
-    <input type="password" name="new_password" id="new_password" />
-    <button type="submit" name="change_password">Changer le mot de passe</button>
-</form>
-
-<form method="post" enctype="multipart/form-data" style="margin-top:10px;">
-    <label for="new_photo">Nouvelle photo de profil :</label>
-    <input type="file" name="new_photo" id="new_photo" accept="image/*" />
-    <button type="submit">Téléverser la photo</button>
-</form>
