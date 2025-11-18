@@ -53,7 +53,11 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
     <?php foreach ($users as $user): ?>
         <tr>
             <td><?= $user['nom'] ?></td>
-            <td><?= $user['prenom'] ?></td>
+            <td>
+                <a href="index.php?page=userInfos&id=<?= $user['id'] ?>">
+                    <?= htmlspecialchars($user['prenom'], ENT_QUOTES, 'UTF-8') ?>
+                </a>
+            </td>
             <td><?= $user ['statut'] ?></td>
             <td>
                 <?= match ($user['idSecteur']){
