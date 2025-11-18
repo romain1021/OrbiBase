@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 18, 2025 at 12:37 PM
+-- Generation Time: Nov 18, 2025 at 02:12 PM
 -- Server version: 8.4.6
 -- PHP Version: 8.4.12
 
@@ -139,10 +139,21 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`id`, `identifiant`, `mdp`, `nom`, `prenom`, `idSpecialite`, `idSecteur`, `statut`, `lienPDP`) VALUES
-(1, 'Romain', '$2y$12$waUDJ0Kd2eD.TPfVuR5TzOTIccQYf6.2LI54Oeud2ASSvYuv/KRfu', 'Lombard', 'Romain', NULL, NULL, 'Actif', NULL),
-(2, 'roro', '$2y$12$YAodCyz9lydFjsMxsTKlg.rMPtSpRvHJS6.dD8srCaUfaVD.hh0vW', 'Lombard', 'Romain', NULL, NULL, 'Actif', NULL),
-(6, 'jdupont', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif', NULL),
-(28, 'iefhzifgefpiez', 'azerty123', 'Dupont', 'Jean', 2, 5, 'Actif', NULL);
+(1, 'Romain', '$2y$12$waUDJ0Kd2eD.TPfVuR5TzOTIccQYf6.2LI54Oeud2ASSvYuv/KRfu', 'Lombard', 'Romain', 2, 4, 'Actif', 'photo/user_1_1763469581.jpeg'),
+(2, 'roro', '$2y$12$YAodCyz9lydFjsMxsTKlg.rMPtSpRvHJS6.dD8srCaUfaVD.hh0vW', 'Lombard', 'Romain', 3, 5, 'Actif', NULL),
+(6, 'jules.bernard', 'azerty123', 'Bernard', 'Jules', 2, 5, 'Actif', NULL),
+(28, 'stephan.moret', 'azerty123', 'Moret', 'Stephan', 2, 5, 'Actif', NULL),
+(29, 'robert.morin', 'azerty123', 'Morin', 'Robert', 3, 1, 'Actif', 'images/.jpg'),
+(30, 'pierre.masson', 'azerty123', 'Masson', 'Pierre', 2, 2, 'Actif', 'images/#surrealnature#etherealviews#fantasticlandscapes#otherworldlyscenery#natureaesthetic#sublimenature.jpg'),
+(31, 'john.leroy', 'azerty123', 'Leroy', 'John', 2, 3, 'Actif', 'images/champ-de-lavande-au-coucher-du-soleil-pres-de-valensole.jpg'),
+(32, 'lucas.dubois', 'azerty123', 'Dubois', 'Lucas', 3, 4, 'Actif', 'images/profile.jpg'),
+(33, 'marc.leclerc', 'azerty123', 'Leclerc', 'Marc', 4, 5, 'Actif', 'images/santa-maddalena-dolomites-rangesouth-tyrol.jpg'),
+(34, 'nathan.roux', 'azerty123', 'Roux', 'Nathan', 5, 1, 'Actif', 'images/zqddqzdqzdzqdqzdzqdqzd.jpg'),
+(35, 'hugo.marchand', 'azerty123', 'Marchand', 'Hugo', 1, 2, 'Actif', 'images/zqdqd .jpg'),
+(36, 'leo.garnier', 'azerty123', 'Garnier', 'Léo', 2, 3, 'Actif', 'images/zqdqzdqdzqdqzdzdqzddqzdzqdzqdz.jpg'),
+(37, 'mathis.collet', 'azerty123', 'Collet', 'Mathis', 3, 4, 'Actif', 'images/zqdqzdqzdqzdqzdqzdqzdqzd.jpg'),
+(38, 'adrien.perrin', 'azerty123', 'Perrin', 'Adrien', 4, 5, 'Actif', 'images/zqdqzdzdqzzdqzdq.jpg'),
+(39, 'dorian.malot', 'azerty123', 'Malot', 'Dorian', 5, 1, 'Actif', 'images/Зелёный хлопковый фон.jpg');
 
 --
 -- Indexes for dumped tables
@@ -213,7 +224,7 @@ ALTER TABLE `Specialite`
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables
