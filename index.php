@@ -28,6 +28,9 @@ if ($page) {
         case 'displayUser':
             require_once('vues/displayUser.php');
             break;
+        case 'affectation':
+            require_once('vues/affectation.php');
+            break;
         default:
             header('Location: index.php?page=connexion');
             exit;

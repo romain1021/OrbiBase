@@ -29,7 +29,8 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
 
 <h2> Affectations — Liste des utilisateurs</h2>
 
-<form method="GET" action="affectation.php">
+<form method="GET" action="index.php">
+    <input type="hidden" name="page" value="affectation">
     <label for="filtre">Rechercher par secteur: </label>
     <select name="filtre" id="filtre">
         <option value="1" <?= $filtre === '1' ? 'selected' : '' ?>>Recherche</option>
@@ -57,10 +58,11 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
             <td>
                 <?= match ($user['idSecteur']){
                     1 => 'Recherche',
-                    2 => 'Agriculture', 
+                    2 => 'Agriculture',
                     3 => 'Maintenance',
                     4 => 'Médecine',
-                    5 => 'commandement'
+                    5 => 'Commandement',
+                    default => 'Non défini',
                 }
                 ?>
             </td>
