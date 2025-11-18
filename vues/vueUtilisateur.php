@@ -1,5 +1,5 @@
 <?php
-require_once('controller/user.php');
+require_once __DIR__ . '/../controller/user.php';
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
