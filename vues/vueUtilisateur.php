@@ -19,27 +19,60 @@ if (!$user) {
     exit;
 }
 ?>
-<h2>Profil Utilisateur</h2>
 
-<?php if (!empty($user['lienPDP'])): ?>
-    <p><img src="<?php echo htmlspecialchars($user['lienPDP']); ?>" alt="Photo de <?php echo htmlspecialchars($user['identifiant']); ?>" style="max-width:200px;max-height:200px;border-radius:6px;" /></p>
-<?php else: ?>
-    <p>Aucune photo de profil.</p>
-<?php endif; ?>
+<section class="profile-card">
+    <h2 class="profile-title">Profil Utilisateur</h2>
 
-<p><strong>Identifiant :</strong> <?php echo htmlspecialchars($user['identifiant']); ?></p>
-<p><strong>Nom :</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
-<p><strong>Prénom :</strong> <?php echo htmlspecialchars($user['prenom']); ?></p>
-<p><strong>Spécialité :</strong> <?php echo htmlspecialchars($user['specialite'] ?? 'N/A'); ?></p>
-<p><strong>Secteur :</strong> <?php echo htmlspecialchars($user['secteur'] ?? 'N/A'); ?></p>
-<p><strong>Statut :</strong> <?php echo htmlspecialchars($user['statut']); ?></p>
+    <div class="profile-main">
+        <div class="profile-photo">
+            <?php if (!empty($user['lienPDP'])): ?>
+                <img src="<?php echo htmlspecialchars($user['lienPDP']); ?>" alt="Photo de <?php echo htmlspecialchars($user['identifiant']); ?>" />
+            <?php else: ?>
+                <div class="profile-photo--placeholder">Aucune photo</div>
+            <?php endif; ?>
+        </div>
 
-<?php
-// Si l'utilisateur visualisé est le même que la session, afficher la vue de modification dessous
-if ($viewerId !== null && $viewerId === $profileId) {
-    // inclut le formulaire et le traitement (fichier séparé)
-    include __DIR__ . '/modif.php';
-}
+        <div class="profile-info">
+            <p><strong>Identifiant :</strong> <?php echo htmlspecialchars($user['identifiant']); ?></p>
+            <p><strong>Nom :</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
+            <p><strong>Prénom :</strong> <?php echo htmlspecialchars($user['prenom']); ?></p>
+            <p><strong>Spécialité :</strong> <?php echo htmlspecialchars($user['specialite'] ?? 'N/A'); ?></p>
+            <p><strong>Secteur :</strong> <?php echo htmlspecialchars($user['secteur'] ?? 'N/A'); ?></p>
+            <p><strong>Statut :</strong> <?php echo htmlspecialchars($user['statut']); ?></p>
 
-?>
+            <?php if ($viewerId !== null && $viewerId === $profileId): ?>
+                <div class="profile-actions">
+                    <button class="btn" id="toggle-edit">Modifier mon profil</button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if ($viewerId !== null && $viewerId === $profileId): ?>
+        <div id="edit-section" style="display:none;margin-top:16px;">
+            <?php include __DIR__ . '/modif.php'; ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+<script>
+    // Toggle pour le formulaire de modification
+    (function(){
+        const btn = document.getElementById('toggle-edit');
+        const edit = document.getElementById('edit-section');
+        if (!btn || !edit) return;
+        btn.addEventListener('click', function(){
+            if (edit.style.display === 'none' || edit.style.display === '') {
+                edit.style.display = 'block';
+                btn.textContent = 'Masquer le formulaire';
+                btn.classList.add('active');
+                edit.scrollIntoView({behavior:'smooth'});
+            } else {
+                edit.style.display = 'none';
+                btn.textContent = 'Modifier mon profil';
+                btn.classList.remove('active');
+            }
+        });
+    })();
+</script>
 

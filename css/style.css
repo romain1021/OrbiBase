@@ -1,79 +1,156 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #501fee;
-  color: #1a1a1a;
-  margin: 0;
-  padding: 0;
+:root{
+  --bg-very-dark: #04102a; /* fond très foncé bleu marine */
+  --bg-dark: #081a36;
+  --card: rgba(255,255,255,0.04);
+  --card-strong: rgba(255,255,255,0.06);
+  --text: #ffffff;
+  --muted: rgba(255,255,255,0.78);
+  --accent: #2e9fff; /* bleu élégant */
+  --accent-dark: #0f6fb7;
+  --glass: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --radius: 12px;
 }
 
-header {
-  background-color: #003366;
-  color: #ffcc00;
-  padding: 1rem 2rem;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-shadow: 0 2px 4px #501fee;;
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(46,159,255,0.06), transparent), var(--bg-very-dark);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-form {
-  max-width: 500px;
-  margin: 3rem auto;
-  background-color: #f9fbff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #501fee;;
+header{
+  background: linear-gradient(180deg,var(--bg-dark), rgba(0,0,0,0.15));
+  padding:1.25rem 2rem;
+  text-align:center;
+  font-size:1.4rem;
+  font-weight:700;
+  color:var(--text);
+  border-bottom:1px solid rgba(255,255,255,0.03);
 }
 
-form label {
-  display: block;
-  margin-top: 1rem;
-  font-weight: bold;
+.container{
+  max-width:1100px;
+  margin:2rem auto;
+  padding:0 1rem;
 }
 
-form input[type="text"],
-form input[type="password"],
-form select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 0.3rem;
-  border: 1px solid #501fee;;
-  border-radius: 5px;
+/* Forms */
+form{
+  max-width:720px;
+  margin:1.5rem auto;
+  background:var(--card);
+  border:1px solid var(--card-strong);
+  padding:1.25rem;
+  border-radius:var(--radius);
+  color:var(--text);
+}
+form label{display:block;margin-top:0.75rem;color:var(--muted);font-weight:600}
+form input[type="text"], form input[type="password"], form select, textarea{
+  width:100%;padding:10px;margin-top:0.35rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text)
 }
 
-button, input[type="submit"] {
-  background-color: #003366;
-  color: #ffcc00;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 1rem;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* Grid of tiles */
+.tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.25rem;
+  margin-top:1.5rem;
 }
 
-button:hover,
-input[type="submit"]:hover {
-  background-color: #002244;
+.tile{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.04);
+  padding:1rem;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(2,6,23,0.6);
+}
+.tile h3{margin:0 0 0.5rem 0;color:var(--text);font-size:1.05rem}
+.tile p{margin:0;color:var(--muted);font-size:0.95rem}
+
+.profile{display:flex;flex-direction:column;gap:0.6rem}
+.profile .name{font-weight:700;color:var(--text)}
+
+/* Buttons */
+.btn{display:inline-block;padding:10px 16px;border-radius:10px;font-weight:700;color:var(--text);text-decoration:none;border:none;cursor:pointer}
+.btn-primary{
+  background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+  box-shadow:0 8px 20px rgba(46,159,255,0.12), 0 2px 6px rgba(0,0,0,0.4);
+}
+.btn-outline{
+  background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)
+}
+.btn:hover{transform:translateY(-1px)}
+
+/* Resources section (old .resources) */
+.resources{
+  padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);
 }
 
-.resources {
-    border: 2px solid #ffcc00;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    background: #f9f9f9;
-    margin: 20px;
+/* Utility text */
+.muted{color:var(--muted)}
+.small{font-size:0.85rem}
+
+/* Responsive tweaks */
+@media (max-width:600px){
+  header{font-size:1.1rem;padding:0.9rem}
+  .container{padding:0 0.75rem}
+  .tile{padding:0.85rem}
 }
 
-.profile {
-    border: 2px solid #ffcc00;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    background:white;
-    margin: 20px;
+/* Accessibility: focus states */
+a:focus, button:focus, input:focus{outline:3px solid rgba(46,159,255,0.18);outline-offset:2px}
+
+
+
+
+/* Navbar */
+.navbar{
+  display:flex;
+  gap:0.5rem;
+  align-items:center;
+  padding:12px 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-bottom:1px solid rgba(255,255,255,0.03);
 }
+.navbar .nav-btn{
+  background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--text);cursor:pointer;font-weight:700
+}
+.navbar .nav-btn.active{background:var(--accent);color:#00253b;border-color:var(--accent-dark)}
+
+/* Global button defaults */
+button.btn, .btn{font-family:inherit}
+button, .btn{transition:all .14s ease}
+
+/* Profile card */
+.profile-card{
+  max-width:900px;margin:1.5rem auto;padding:16px;border-radius:12px;background:var(--card);border:1px solid var(--card-strong);
+}
+.profile-title{margin:0 0 12px 0}
+.profile-main{display:flex;gap:16px;align-items:flex-start}
+.profile-photo{width:200px;flex:0 0 200px}
+.profile-photo img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
+.profile-photo--placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border-radius:8px;color:var(--muted)}
+.profile-info{flex:1}
+.profile-actions{margin-top:12px}
+
+/* Edit section styling (form included) */
+#edit-section{background:transparent}
+#edit-section form{background:transparent;border:none;padding:0}
+#edit-section input[type="password"], #edit-section input[type="file"]{background:transparent}
+
+/* Messages */
+.message{padding:8px 12px;border-radius:8px;margin-bottom:8px}
+.message.success{background:rgba(46,159,255,0.08);color:var(--accent)}
+.message.error{background:rgba(255,80,80,0.06);color:#ff8080}
+
+@media (max-width:700px){
+  .profile-main{flex-direction:column}
+  .profile-photo{width:100%;flex:auto}
+}
+
 
 
