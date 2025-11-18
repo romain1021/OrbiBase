@@ -27,7 +27,7 @@ $users = $result->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-<h2> Affectations — Liste des utilisateurs</h2>
+<h2> Affectations</h2>
 
 <form method="GET" action="index.php">
     <input type="hidden" name="page" value="affectation">
