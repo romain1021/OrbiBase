@@ -2,6 +2,8 @@
 $pdo = new PDO("mysql:host=localhost;dbname=orbibase", "root", "");  
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 
+
+// recupère le filtre selectioné
 $filtre = $_GET['filtre'] ?? '';
 if ($filtre !== '') {
     $result = $pdo->prepare("SELECT * FROM user WHERE idSecteur = :filtre");
@@ -11,8 +13,7 @@ if ($filtre !== '') {
 }
 $result->execute();   
 $users = $result->fetchAll(PDO::FETCH_ASSOC);
-?>
-
+// partie en HTML?>
 <!DOCTYPE html>
 <html>
 <head>

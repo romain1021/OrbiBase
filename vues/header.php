@@ -1,3 +1,13 @@
+ <!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>OrbiBase</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
 <?php
 // Header fragment: affiche une navbar si l'utilisateur est connecté.
 // Do not output full HTML document here; index.php gère the wrapper.
@@ -15,7 +25,6 @@ if (isset($_SESSION['user_id'])) {
     </nav>
 
     <script>
-        // Gère la navigation par les boutons du header
         (function(){
             function getPageParam() {
                 try {
@@ -26,11 +35,8 @@ if (isset($_SESSION['user_id'])) {
 
             const current = getPageParam() || null;
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                // active state
                 const page = btn.dataset.page || null;
                 if (page && page === current) btn.classList.add('active');
-
-                // click handler
                 btn.addEventListener('click', function(){
                     if (btn.id === 'btn-logout' && btn.dataset.href) {
                         window.location.href = btn.dataset.href;
@@ -41,8 +47,6 @@ if (isset($_SESSION['user_id'])) {
                         window.location.href = 'index.php?page=' + encodeURIComponent(p);
                     }
                 });
-
-                // keyboard: Enter/Space
                 btn.addEventListener('keydown', function(e){
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
@@ -52,6 +56,7 @@ if (isset($_SESSION['user_id'])) {
             });
         })();
     </script>
+   
 
     <?php
 }

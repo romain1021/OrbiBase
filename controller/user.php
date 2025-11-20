@@ -12,6 +12,8 @@ function getLocalPDO(): PDO
     ]);
 }
 
+
+// fonction qui ajoute un utilisateur à la base de donnée
 function addUser($identifiant = null, $password = null, $nom = '', $prenom = '', $idSpecialite = null, $idSecteur = null, $statut = 'Actif') {
     $identifiant = $identifiant ?? ($_POST['identifiant'] ?? null);
     $password = $password ?? ($_POST['mdp'] ?? null);
@@ -26,7 +28,7 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
     }
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
+    // appel de la base de donnée
     $sql = "INSERT INTO `User` (identifiant, mdp, nom, prenom, idSpecialite, idSecteur, statut)\n VALUES (:identifiant, :mdp, :nom, :prenom, :idSpecialite, :idSecteur, :statut)";
 
     $pdo = getLocalPDO();
@@ -50,7 +52,7 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
     $stmt->execute();
 
     $newId = $pdo->lastInsertId();
-
+// gestion de la photo de profil si fournie
     if (!empty($_FILES['photo']['tmp_name'])) {
         try {
             $uploaded = $_FILES['photo'];
@@ -81,6 +83,7 @@ function addUser($identifiant = null, $password = null, $nom = '', $prenom = '',
     return $newId;
 }
 
+// fonction qui vérifie les identifiants de connexion d'un utilisateur
 function checkUserCredentials($identifiant = null, $password = null) {
     $identifiant = $identifiant ?? ($_POST['identifiant'] ?? null);
     $password = $password ?? ($_POST['mdp'] ?? null);
@@ -110,6 +113,7 @@ function checkUserCredentials($identifiant = null, $password = null) {
     }
 }
 
+// fonction qui recupère les utilisateur et les trie selon leurs affactations
 function getListeUserByAffectation() {
     $pdo = getLocalPDO();
     $sql = "SELECT s.id AS secteur_id, s.nom AS secteur_nom, u.id AS user_id, u.identifiant, u.nom, u.prenom, u.statut
@@ -138,6 +142,10 @@ function getListeUserByAffectation() {
     return $liste;
 }
 
+
+
+
+// fonction qui recupère les informations d'un utilisateur par son ID
 function getUserById($userId) {
     $pdo = getLocalPDO();
     $sql = "SELECT u.id, u.identifiant, u.nom, u.prenom, u.idSpecialite, u.idSecteur, u.statut, u.lienPDP,
@@ -162,6 +170,9 @@ function updateUserPassword($userId, $newPassword) {
     return $stmt->execute();
 }
 
+
+
+// fonction qui met à jour la photo de profil d'un utilisateurÒ
 function updateUserPhoto($userId, $uploadedFile) {
     if (empty($uploadedFile['tmp_name']) || $uploadedFile['error'] !== UPLOAD_ERR_OK) return false;
     $ext = pathinfo($uploadedFile['name'], PATHINFO_EXTENSION);
