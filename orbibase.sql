@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 18, 2025 at 02:12 PM
+-- Generation Time: Nov 20, 2025 at 10:53 AM
 -- Server version: 8.4.6
 -- PHP Version: 8.4.12
 
@@ -70,7 +70,7 @@ INSERT INTO `Resources` (`id`, `oxygene`, `nourriture`, `eau`, `energie`, `date_
 (7, 55, 48, 53, 65, '2025-10-29 10:05:00'),
 (8, 49, 44, 48, 60, '2025-10-30 15:15:00'),
 (9, 43, 38, 41, 55, '2025-10-31 11:25:00'),
-(10, 39, 35, 37, 50, '2025-11-01 09:00:00');
+(10, 10, 35, 37, 50, '2025-11-01 09:00:00');
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,10 @@ INSERT INTO `User` (`id`, `identifiant`, `mdp`, `nom`, `prenom`, `idSpecialite`,
 (36, 'leo.garnier', 'azerty123', 'Garnier', 'Léo', 2, 3, 'Actif', 'images/zqdqzdqdzqdqzdzdqzddqzdzqdzqdz.jpg'),
 (37, 'mathis.collet', 'azerty123', 'Collet', 'Mathis', 3, 4, 'Actif', 'images/zqdqzdqzdqzdqzdqzdqzdqzd.jpg'),
 (38, 'adrien.perrin', 'azerty123', 'Perrin', 'Adrien', 4, 5, 'Actif', 'images/zqdqzdzdqzzdqzdq.jpg'),
-(39, 'dorian.malot', 'azerty123', 'Malot', 'Dorian', 5, 1, 'Actif', 'images/Зелёный хлопковый фон.jpg');
+(39, 'dorian.malot', 'azerty123', 'Malot', 'Dorian', 5, 1, 'Actif', 'images/Зелёный хлопковый фон.jpg'),
+(40, 'stephan ', '$2y$12$3pJIIgRTuuTKvB9DJH7MVeppyEuPhLah0jCCXn5TIQ.sVad9Wz7ua', 'dupon', 'ealzndlzk', 2, 5, 'Actif', NULL),
+(41, 'bobita', '$2y$12$x4tHauUhmhjeeo4mjf/zkeZaE2U9W17Gvp3arERvgwn63yJ/am2GO', 'Romain', 'Romain', NULL, NULL, 'Actif', NULL),
+(43, 'rorolegeek', '$2y$12$IF//zBEP1tYWtpU5EcrjueZCxPQnvNolcCSE//TjyhVQU1xiszl1e', 'Lombard', 'Romain', 2, 5, 'Actif', 'photo/user_43_1763630782.jpeg');
 
 --
 -- Indexes for dumped tables
@@ -224,7 +227,7 @@ ALTER TABLE `Specialite`
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
